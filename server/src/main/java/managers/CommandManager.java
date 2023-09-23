@@ -76,7 +76,8 @@ public class CommandManager{
         Response response = command.execute(request);
         commandManagerLogger.info("Выполнение команды", response);
         if (command instanceof CollectionEditor) {
-            commandManagerLogger.info("Файл обновлен");
+            if (!(request.getObject() == null && request.getCommandName().equalsIgnoreCase("add")))
+                commandManagerLogger.info("Файл обновлен");
             fileManager.saveObjects();
         }
         return response;
