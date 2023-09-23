@@ -70,7 +70,7 @@ public class CommandManager{
     public Response execute(Request request) throws NoSuchCommand, IllegalArguments, CommandRuntimeError, ExitObliged {
         Command command = commands.get(request.getCommandName());
         if (command == null) {
-            commandManagerLogger.fatal("Нет такой команды" + request.getCommandName());
+            commandManagerLogger.fatal("Нет такой команды " + request.getCommandName());
             throw new NoSuchCommand();
         }
         Response response = command.execute(request);
