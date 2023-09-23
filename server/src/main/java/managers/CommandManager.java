@@ -45,7 +45,7 @@ public class CommandManager{
     public void addCommand(Collection<Command> commands){
         this.commands.putAll(commands.stream()
                 .collect(Collectors.toMap(Command::getName, s -> s)));
-        commandManagerLogger.info("Добавлены комманды", commands);
+        commandManagerLogger.info("Загружен список команд", commands);
     }
     public Collection<Command> getCommands(){
         return commands.values();
@@ -74,7 +74,9 @@ public class CommandManager{
             throw new NoSuchCommand();
         }
         Response response = command.execute(request);
-        commandManagerLogger.info("Выполнение команды", response);
+        if (request.getCommandName().equalsIgnoreCase("add") && request.getObject() == null)
+            commandManagerLogger.info("Ожидание данных от клиента", response);
+        else commandManagerLogger.info("Выполнение команды", response);
         if (command instanceof CollectionEditor) {
             if (!(request.getObject() == null && request.getCommandName().equalsIgnoreCase("add")))
                 commandManagerLogger.info("Файл обновлен");
